@@ -1,0 +1,442 @@
+<html>
+  <head>
+	  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>todomvc案例</title>
+		<link href="toc/style/github-bf51422f4bb36427d391e4b75a1daa083c2d840e.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/style/github2-d731afd4f624c99a4b19ad69f3083cd6d02b81d5.css" media="all" rel="stylesheet" type="text/css"/>
+		<link href="toc/css/zTreeStyle/zTreeStyle.css" media="all" rel="stylesheet" type="text/css"/>
+	  <style>
+		pre {
+		    counter-reset: line-numbering;
+		    border: solid 1px #d9d9d9;
+		    border-radius: 0;
+		    background: #fff;
+		    padding: 0;
+		    line-height: 23px;
+		    margin-bottom: 30px;
+		    white-space: pre;
+		    overflow-x: auto;
+		    word-break: inherit;
+		    word-wrap: inherit;
+		}
+
+		pre a::before {
+		  content: counter(line-numbering);
+		  counter-increment: line-numbering;
+		  padding-right: 1em; /* space after numbers */
+		  width: 25px;
+		  text-align: right;
+		  opacity: 0.7;
+		  display: inline-block;
+		  color: #aaa;
+		  background: #eee;
+		  margin-right: 16px;
+		  padding: 2px 10px;
+		  font-size: 13px;
+		  -webkit-touch-callout: none;
+		  -webkit-user-select: none;
+		  -khtml-user-select: none;
+		  -moz-user-select: none;
+		  -ms-user-select: none;
+		  user-select: none;
+		}
+
+		pre a:first-of-type::before {
+		  padding-top: 10px;
+		}
+
+		pre a:last-of-type::before {
+		  padding-bottom: 10px;
+		}
+
+		pre a:only-of-type::before {
+		  padding: 10px;
+		}
+
+		.highlight { background-color: #ffffcc } /* RIGHT */
+		</style>
+  </head>
+  <body>
+	  <div>
+				<div style='width:25%;'>
+						<ul id="tree" class="ztree" style='width:100%'>
+
+						</ul>
+				</div>
+        <div id='readme' style='width:70%;margin-left:20%;'>
+          	<article class='markdown-body'>
+            	<h1 id="todomvc-">todomvc 案例</h1>
+<p><a href="http://todomvc.com/">效果可以在TODOMVC官网查看</a></p>
+<p>官网中包含了很多种框架编写的todolist,都可以在线查看</p>
+<h2 id="1-">1.模板文件的下载</h2>
+<p>模板文件可以在github官网todomvc的库下载 <a href="https://github.com/tastejs/todomvc-app-template">链接</a></p>
+<p>因为是国外的网站,所以访问可能下载很慢,可以在这里下载<a href="https://gitee.com/qingrts/todomvc-app-template">模板</a></p>
+<p>安装有git的同学可以使用下边的命令下载</p>
+<pre><code>git clone git@github.com:tastejs/todomvc-app-template.git
+或者
+git init
+git pull git@github.com:tastejs/todomvc-app-template.git
+</code></pre><p>没有安装git可以在线下载,点击下图中蓝色区域的code按钮,下边有个download zip可以下载压缩包</p>
+<p><img src="./images/download.png" alt="download"></p>
+<p>下载完成之后,解压即可得到模板文件,但是只有样式,以及结构,没有相应的逻辑代码</p>
+<h2 id="2-">2.将模板文件引入项目,并导入样式文件</h2>
+<p>将模板文件下的index.html打开将一下内容添加进我们的自己的App.vue中</p>
+<pre><code class="lang-html">&lt;div id=&quot;app&quot;&gt;
+    &lt;section class=&quot;todoapp&quot;&gt;
+            &lt;header class=&quot;header&quot;&gt;
+                &lt;h1&gt;todos&lt;/h1&gt;
+                &lt;input class=&quot;new-todo&quot; placeholder=&quot;What needs to be done?&quot; autofocus&gt;
+            &lt;/header&gt;
+            &lt;!-- This section should be hidden by default and shown when there are todos --&gt;
+            &lt;section class=&quot;main&quot;&gt;
+                &lt;input id=&quot;toggle-all&quot; class=&quot;toggle-all&quot; type=&quot;checkbox&quot;&gt;
+                &lt;label for=&quot;toggle-all&quot;&gt;Mark all as complete&lt;/label&gt;
+                &lt;ul class=&quot;todo-list&quot;&gt;
+                    &lt;!-- These are here just to show the structure of the list items --&gt;
+                    &lt;!-- List items should get the class `editing` when editing and `completed` when marked as completed --&gt;
+                    &lt;li class=&quot;completed&quot;&gt;
+                        &lt;div class=&quot;view&quot;&gt;
+                            &lt;input class=&quot;toggle&quot; type=&quot;checkbox&quot; checked&gt;
+                            &lt;label&gt;Taste JavaScript&lt;/label&gt;
+                            &lt;button class=&quot;destroy&quot;&gt;&lt;/button&gt;
+                        &lt;/div&gt;
+                        &lt;input class=&quot;edit&quot; value=&quot;Create a TodoMVC template&quot;&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;div class=&quot;view&quot;&gt;
+                            &lt;input class=&quot;toggle&quot; type=&quot;checkbox&quot;&gt;
+                            &lt;label&gt;Buy a unicorn&lt;/label&gt;
+                            &lt;button class=&quot;destroy&quot;&gt;&lt;/button&gt;
+                        &lt;/div&gt;
+                        &lt;input class=&quot;edit&quot; value=&quot;Rule the web&quot;&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/section&gt;
+            &lt;!-- This footer should be hidden by default and shown when there are todos --&gt;
+            &lt;footer class=&quot;footer&quot;&gt;
+                &lt;!-- This should be `0 items left` by default --&gt;
+                &lt;span class=&quot;todo-count&quot;&gt;&lt;strong&gt;0&lt;/strong&gt; item left&lt;/span&gt;
+                &lt;!-- Remove this if you don&#39;t implement routing --&gt;
+                &lt;ul class=&quot;filters&quot;&gt;
+                    &lt;li&gt;
+                        &lt;a class=&quot;selected&quot; href=&quot;#/&quot;&gt;All&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;#/active&quot;&gt;Active&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;#/completed&quot;&gt;Completed&lt;/a&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+                &lt;!-- Hidden if no completed items are left ↓ --&gt;
+                &lt;button class=&quot;clear-completed&quot;&gt;Clear completed&lt;/button&gt;
+            &lt;/footer&gt;
+        &lt;/section&gt;
+        &lt;footer class=&quot;info&quot;&gt;
+            &lt;p&gt;Double-click to edit a todo&lt;/p&gt;
+            &lt;!-- Remove the below line ↓ --&gt;
+            &lt;p&gt;Template by &lt;a href=&quot;http://sindresorhus.com&quot;&gt;Sindre Sorhus&lt;/a&gt;&lt;/p&gt;
+            &lt;!-- Change this out with your name and url ↓ --&gt;
+            &lt;p&gt;Created by &lt;a href=&quot;http://todomvc.com&quot;&gt;you&lt;/a&gt;&lt;/p&gt;
+            &lt;p&gt;Part of &lt;a href=&quot;http://todomvc.com&quot;&gt;TodoMVC&lt;/a&gt;&lt;/p&gt;
+        &lt;/footer&gt;
+  &lt;/div&gt;
+</code></pre>
+<p>刷新页面可以看到结构已经出现了,但是样式没有出来</p>
+<p>我们回到模板文件的目录中,打开index.html,在&lt;head>中发现样式写在node_modules中,我们就可以通过npm的命令来安装文件</p>
+<pre><code>// 安装模板文件需要的样式
+npm install todomvc-common todomvc-app-css -S
+</code></pre><p>安装完之后,我们在我们的App.vue中导入样式</p>
+<pre><code>import &quot;todomvc-app-css/index.css&quot;;
+import &quot;todomvc-common/base.css&quot;;
+</code></pre><p>刷新页面,样式就出来了</p>
+<h2 id="3-">3. 渲染数据</h2>
+<p>在我们的store.js中添加一些假数据</p>
+<pre><code>todos: [
+  {id: Math.random() * 10, title: &quot;吃饭&quot;, done: false},
+  {id: Math.random() * 10, title: &quot;睡觉&quot;, done: false},
+  {id: Math.random() * 10, title: &quot;打游戏&quot;, done: false},
+]
+</code></pre><p>然后渲染列表数据,类completed表示的是完成时的类,当每一项的done为true时,才添加这个类</p>
+<pre><code>&lt;li :class=&quot;{&#39;completed&#39;: item.done}&quot; v-for=&quot;item in $store.state.todos&quot; :key=&quot;item.id&quot;&gt;
+    &lt;div class=&quot;view&quot;&gt;
+        &lt;input class=&quot;toggle&quot; type=&quot;checkbox&quot; :checked=&quot;item.done&quot;&gt;
+        &lt;label&gt;{{ item.title }}&lt;/label&gt;
+        &lt;button class=&quot;destroy&quot;&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;input class=&quot;edit&quot; value=&quot;Create a TodoMVC template&quot;&gt;
+&lt;/li&gt;
+</code></pre><p><font color="red">补充</font>:如果todos的列表为空,让下边的状态栏也隐藏</p>
+
+
+<p>在我们的store.js中添加一个getters来表示todos的长度,如果为0,则隐藏,否则显示</p>
+<pre><code>getters: {
+    getTodosLength(state) {
+      return state.todos.length;
+    }
+}
+</code></pre><p>然后在我们的App.vue中找到属于状态栏的父级标签</p>
+<p>添加v-show(因为可能涉及频繁切换,所以使用v-show渲染)</p>
+<pre><code>&lt;footer class=&quot;footer&quot;  v-show=&quot;$store.getters.getTodosLength&quot;&gt;
+    &lt;!-- This should be `0 items left` by default --&gt;
+    &lt;span class=&quot;todo-count&quot;&gt;&lt;strong&gt;0&lt;/strong&gt; item left&lt;/span&gt;
+    &lt;!-- Remove this if you don&#39;t implement routing --&gt;
+    &lt;ul class=&quot;filters&quot;&gt;
+        &lt;li&gt;
+            &lt;a class=&quot;selected&quot; href=&quot;#/&quot;&gt;All&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+            &lt;a href=&quot;#/active&quot;&gt;Active&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+            &lt;a href=&quot;#/completed&quot;&gt;Completed&lt;/a&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;!-- Hidden if no completed items are left ↓ --&gt;
+    &lt;button class=&quot;clear-completed&quot;&gt;Clear completed&lt;/button&gt;
+&lt;/footer&gt;
+</code></pre><p>删除todos中的数据可以测试一下效果</p>
+<h2 id="4-todo">4. 添加todo</h2>
+<p>在store.js中定义一个mutations,添加一个addTodo的方法</p>
+<pre><code>mutations: {
+    addTodo(state) {
+      state.todos.push({id: Math.random() * 10, title: title, done: false});
+    }
+}
+</code></pre><p>然后在App.vue中methods创建对应的方法,并且我们再这里过滤一下,如果用户输入为空的话,取消输入</p>
+<pre><code>addTodo(e) {
+  let title = e.target.value;
+  if(title.trim().length == 0){
+      return;
+  }
+  this.$store.commit(&quot;addTodo&quot;, title);
+  // 清空文本框
+  e.target.value = &quot;&quot;;
+}
+</code></pre><p>最后给元素绑定事件 <font color="red">$event可以获取元素的属性</font> ,添加事件修饰符,按住enter时才添加</p>
+<pre><code>&lt;input class=&quot;new-todo&quot; @keyup.enter=&quot;addTodo($event)&quot; placeholder=&quot;What needs to be done?&quot; autofocus&gt;
+</code></pre><h2 id="5-todo">5. 删除todo</h2>
+<p>一样的套路</p>
+<p>在store.js中的mutations中定义一个方法,deleteTodo</p>
+<pre><code>deleteTodo(state, id) {
+  state.todos.forEach((t, i) =&gt; {
+    if(t.id == id){
+      state.todos.splice(i, 1);
+      return;
+    }
+  })
+}
+</code></pre><p>在App.vue中定义对应的方法,deleteTodo</p>
+<pre><code>deleteTodo(id){
+    this.$store.commit(&quot;deleteTodo&quot;, id);
+}
+</code></pre><p>给对应的删除按钮添加事件,传参</p>
+<pre><code>&lt;button class=&quot;destroy&quot; @click=&quot;deleteTodo(item.id)&quot;&gt;&lt;/button&gt;
+</code></pre><h2 id="6-">6. 修改状态</h2>
+<p>还是一样</p>
+<p>在store.js中的mutations中定义一个方法,changeTodo</p>
+<pre><code>changeTodo(state, {id, e}) {
+  state.todos.forEach(t =&gt; {
+    if(t.id == id){
+      t.done = e.target.checked;
+      return;
+    }
+  })
+}
+</code></pre><p>在App.vue中定义一个对应的方法,传参</p>
+<pre><code>changeTodo(id, e){
+    this.$store.commit(&quot;changeTodo&quot;, {id, e});
+}
+</code></pre><p>给对应的按钮添加事件</p>
+<pre><code>&lt;input class=&quot;toggle&quot; type=&quot;checkbox&quot; :checked=&quot;item.done&quot; @change=&quot;changeTodo(item.id, $event)&quot;&gt;
+</code></pre><h2 id="7-">7. 修改内容</h2>
+<h3 id="-">修改</h3>
+<p>又是一样的套路</p>
+<p><font color="red">补充</font>:在这个模板文件中,它自定义了一个类,editing,就是修改的类,当这个editing类作用在li上时它就变成可以修改的了</p>
+
+<p>在store.js的state中定义一个变量,editing定义为一个空的对象</p>
+<pre><code>editing: {}
+</code></pre><p>在下边的mutations中定义对应的方法</p>
+<pre><code>editing(state, item){
+  state.editing = item;
+}
+</code></pre><p>在App.vue中添加对应的方法</p>
+<pre><code>editing(item) {
+    this.$store.commit(&quot;editing&quot;, item);
+}
+</code></pre><p>在li添加一个类,判断当store.js中的editing等于当前的li</p>
+<pre><code>&lt;li :class=&quot;{&#39;completed&#39;: item.done, &#39;editing&#39;: $store.state.editing == item}&quot; v-for=&quot;item in $store.state.todos&quot; :key=&quot;item.id&quot;&gt;
+</code></pre><p>然后在我们的文本上添加方法,双击的时候让editing等于这个item,也就是todo对应的内容</p>
+<pre><code>&lt;label @dblclick=&quot;editing(item)&quot;&gt;{{ item.title }}&lt;/label&gt;
+</code></pre><p>好了,现在我们再浏览器试验一下</p>
+<p>...</p>
+<p>发现输入框内的文本内容不对,复制文本框的内容,在App.vue中按下Ctrl+f然后按ctrl+v搜索到对应的标签,绑定对应的属性</p>
+<pre><code>&lt;input class=&quot;edit&quot; :value=&quot;item.title&quot;&gt;
+</code></pre><h3 id="-">保存</h3>
+<p>在失去焦点或者按下enter时保存</p>
+<p>在store.js中定义一个方法,saveEdit</p>
+<pre><code>saveEdit(state, {e, id}){
+  let title = e.target.value;
+  state.todos.forEach(t =&gt; {
+    if(t.id == id){
+      t.title = title;
+      state.editing = {};
+      return;
+    }
+  })
+}
+</code></pre><p>在App.vue中定义一个对应的方法,saveEdit</p>
+<pre><code>saveEdit(e, id){
+    this.$store.commit(&quot;saveEdit&quot;, {e, id});
+}
+</code></pre><p>给输入框绑定事件</p>
+<pre><code>&lt;input class=&quot;edit&quot; :value=&quot;item.title&quot; @keyup.enter=&quot;saveEdit($event, item.id)&quot; @blur=&quot;saveEdit($event, item.id)&quot;&gt;
+</code></pre><p>这样我们的按下enter和失去焦点保存就做好了</p>
+<h3 id="-">取消保存</h3>
+<p>当用户不想保存的时候,可以按下esc取消</p>
+<p>在store.js中定义一个cancelSave,顾名思义:取消保存的意思,</p>
+<pre><code>cancelSave(state, e){
+  // 有的地方会有一些bug
+  e.target.value = state.editing.title;
+  state.editing = {};
+}
+</code></pre><p>在App.vue中定义对应的方法cancelSave</p>
+<pre><code>cancelSave(e){
+    this.$store.commit(&quot;cancelSave&quot;, e);
+}
+</code></pre><p>给输入框添加keyup的esc取消事件,esc的keyCode值是27</p>
+<pre><code>&lt;input class=&quot;edit&quot; :value=&quot;item.title&quot; @keyup.enter=&quot;saveEdit($event, item.id)&quot; @blur=&quot;saveEdit($event, item.id)&quot; @keyup.27=&quot;cancelSave($event)&quot;&gt;
+</code></pre><h2 id="8-">8. 全选</h2>
+<p>点击输入框左边的下箭头时,实现全选,和取消全选,(全选是亮起,未全选是暗)</p>
+<p>在store.js中的getters中定义一个方法isAllCheck,这个方法用来监听todo.done的状态即是否全部都是true</p>
+<p>在这里我们用一个方法every</p>
+<blockquote>
+<p>every() 方法用于检测数组所有元素是否都符合指定条件（通过函数提供）。</p>
+<p>every() 方法使用指定函数检测数组中的所有元素：</p>
+<ul>
+<li>如果数组中检测到有一个元素不满足，则整个表达式返回 false ，且剩余的元素不会再进行检测。</li>
+<li>如果所有元素都满足条件，则返回 true。</li>
+</ul>
+</blockquote>
+<pre><code>isAllCheck(state) {
+  return state.todos.every(t =&gt; t.done);
+}
+</code></pre><p>然后我们在App.vue中使用这个getters,用来监听todos的状态</p>
+<pre><code>&lt;input id=&quot;toggle-all&quot; class=&quot;toggle-all&quot; type=&quot;checkbox&quot; :checked=&quot;$store.getters.isAllCheck&quot;&gt;
+</code></pre><p>但是还是无法实现全选,取消全选需求,别着急,慢慢来 ........</p>
+<p>在store.js中的mutations中定义一个修改所有todo状态的方法,changeTodoState</p>
+<pre><code>changeTodoState(state, e) {
+  state.todos.forEach(t =&gt; t.done = e.target.checked);
+}
+</code></pre><p>在对应的App.vue中定义一个对应的方法</p>
+<pre><code>changeTodoState(e){
+    this.$store.commit(&quot;changeTodoState&quot;, e);
+}
+</code></pre><p>给元素绑定事件</p>
+<pre><code>&lt;input id=&quot;toggle-all&quot; class=&quot;toggle-all&quot; type=&quot;checkbox&quot; :checked=&quot;$store.getters.isAllCheck&quot; @change=&quot;changeTodoState($event)&quot;&gt;
+</code></pre><h2 id="9-">9. 获取未完成的项数</h2>
+<p>在store.js中的getters获取未完成的项数 getNoDoneLength</p>
+<pre><code>getNoDoneLength(state) {
+  return state.todos.filter(t =&gt; !t.done).length;
+}
+</code></pre><p>在App.vue中使用这个getter</p>
+<pre><code>&lt;span class=&quot;todo-count&quot;&gt;&lt;strong&gt;{{ $store.getters.getNoDone }}&lt;/strong&gt; item left&lt;/span&gt;
+</code></pre><p>获取已经完成的项数</p>
+<pre><code>getDoneLength(state) {
+  return state.todos.filter(t =&gt; t.done).length;
+}
+</code></pre><p>在App.vue中使用这个getter来<font color="red">控制清除全部</font>按钮的<font color="red">显示与隐藏</font></p>
+<pre><code>&lt;button class=&quot;clear-completed&quot; @click=&quot;removeCompleted&quot; v-show=&quot;$store.getters.getDoneLength&quot;&gt;Clear completed&lt;/button&gt;
+</code></pre><h2 id="10-">10. 清楚已经完成的项</h2>
+<p>在store.js中的mutations定义一个方法,removeCompleted</p>
+<pre><code>removeCompleted(state) {
+  state.todos = state.todos.filter(t =&gt; !t.done);
+}
+</code></pre><p>在App.vue中定义一个对应的 方法</p>
+<pre><code>removeCompleted(){
+    this.$store.commit(&quot;removeCompleted&quot;);
+}
+</code></pre><p>给按钮添加事件</p>
+<pre><code>&lt;button class=&quot;clear-completed&quot; @click=&quot;removeCompleted&quot;&gt;Clear completed&lt;/button&gt;
+</code></pre><h2 id="11-">11. 切换列表</h2>
+<p>点击all查看所有,点击active查看todos未完成的项,点击completed查看已经完成的项</p>
+<p>首先,我们再store.js中的state中定义一个属性visibility,下面的getters根据这个属性来返回对应的列表</p>
+<p>在store.js中的getters定义一个getter,名为getTodoList</p>
+<pre><code>getTodoList(state) {
+  if(state.visibility == &quot;all&quot;){
+    return state.todos;
+  } else if (state.visibility == &quot;active&quot;){
+    return state.todos.filter(t =&gt; !t.done);
+  } else if (state.visibility == &quot;completed&quot;){
+    return state.todos.filter(t =&gt; t.done);
+  }
+}
+</code></pre><p>在App.vue中替换一下li渲染的列表,</p>
+<pre><code>&lt;li :class=&quot;{&#39;completed&#39;: item.done, &#39;editing&#39;: $store.state.editing == item}&quot; v-for=&quot;item in $store.getters.getTodoList&quot; :key=&quot;item.id&quot;&gt;
+</code></pre><p>现在我们可以来看一下,点击all,active,completed时候地址栏的变化,刷新的时候地址栏是不会变的,我们根据这个特性来设置列表</p>
+<p><font color="red">补充</font>浏览器对象window有一个事件叫做onhashchange,用它可以来监听锚点的变化</p>
+<blockquote>
+<p>onhashchange 事件在当前 URL 的锚部分(以 &#39;#&#39; 号为开始) 发生改变时触发 。</p>
+<p>锚部分的实例：指定当前 URL 为</p>
+<p><a href="http://www.example.com/test.htm#part2">http://www.example.com/test.htm#part2</a> - 这个 URL 中的锚部分为 #part2。</p>
+<p>你可以使用以下方式调用事件:</p>
+<ul>
+<li>通过设置Location 对象 的 location.hash 或 location.href 属性修改锚部分。</li>
+<li>使用不同书签导航到当前页面（使用&quot;后退&quot; 或&quot;前进&quot;按钮）</li>
+<li>点击链接跳转到书签锚</li>
+</ul>
+</blockquote>
+<p>现在我们回到store.js中定义一个方法,用来修改visibility,方法名为visibilityChange</p>
+<pre><code>visibilityChange(state, val) {
+  state.visibility = val;
+}
+</code></pre><p>然后我们在App.vue中定义一个方法用来监听hash的变化: hashChange</p>
+<pre><code>hashChange() {
+      const hash = window.location.hash.substr(1);
+      if(hash == &quot;/&quot;){
+        this.$store.commit(&quot;visibilityChange&quot;, &quot;all&quot;);
+      } else if (hash == &quot;/active&quot;){
+        this.$store.commit(&quot;visibilityChange&quot;, &quot;active&quot;);
+    } else if (hash == &quot;/completed&quot;){
+        this.$store.commit(&quot;visibilityChange&quot;, &quot;completed&quot;);
+    }
+}
+</code></pre><p>然后在我们的vue的生命周期钩子created调用事件</p>
+<pre><code>created() {
+    this.hashChange();
+    window.onhashchange = this.hashChange;
+}
+</code></pre><h2 id="12-">12. 本地化存储</h2>
+<p>在数据发生变化的时候,修改本地中的数据</p>
+<blockquote>
+<p>我们可以使用 JSON.stringify() 方法将 JavaScript 对象转换为字符串。</p>
+<p>我们可以使用 JSON.parse() 方法将数据转换为 JavaScript 对象。</p>
+</blockquote>
+<p>在store.js中把假数据修改为获取本地的数据,如果为空的话,将todos赋值为空数组</p>
+<pre><code>todos: JSON.parse(window.localStorage.getItem(&quot;todos&quot;) || &quot;[]&quot;),
+</code></pre><p>回到App.vue中添加一个生命周期钩子,用来修改本地数据</p>
+<pre><code>updated() {
+    window.localStorage.setItem(&quot;todos&quot;, JSON.stringify(this.$store.state.todos));
+}
+</code></pre>
+          	</article>
+        </div>
+		</div>
+  </body>
+</html>
+<script type="text/javascript" src="toc/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="toc/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="toc/js/ztree_toc.js"></script>
+<script type="text/javascript" src="toc_conf.js"></script>
+
+<SCRIPT type="text/javascript" >
+<!--
+$(document).ready(function(){
+    var css_conf = eval(markdown_panel_style);
+    $('#readme').css(css_conf)
+    
+    var conf = eval(jquery_ztree_toc_opts);
+		$('#tree').ztree_toc(conf);
+});
+//-->
+</SCRIPT>
